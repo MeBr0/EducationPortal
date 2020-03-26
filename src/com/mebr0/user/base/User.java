@@ -2,6 +2,8 @@ package com.mebr0.user.base;
 
 import com.mebr0.user.util.PasswordEncoder;
 
+import java.util.Objects;
+
 public abstract class User extends Person {
 
     private String id;
@@ -23,7 +25,9 @@ public abstract class User extends Person {
     }
 
     public boolean checkCredentials(String login, String password) {
+        password = Objects.requireNonNull(password, "Password cannot be null");
         String encodedPassword = PasswordEncoder.encode(password);
+
         return LOGIN.equalsIgnoreCase(login) && this.password.equals(encodedPassword);
     }
 
@@ -44,6 +48,7 @@ public abstract class User extends Person {
     }
 
     public void setPassword(String password) {
+        password = Objects.requireNonNull(password, "Password cannot be null");
         this.password = PasswordEncoder.encode(password);
     }
 

@@ -3,12 +3,18 @@ package com.mebr0.user.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Class that encode passwords for {@link com.mebr0.user.base.User}
+ *
+ * @author A.Yergali
+ * @version 1.0
+ */
 public abstract class PasswordEncoder {
 
     private static MessageDigest digest;
 
     private PasswordEncoder() {
-
+        throw new AssertionError("No " + getClass().getSimpleName() + " instances for you!");
     }
 
     static {

@@ -13,12 +13,8 @@ public class Student extends User {
 
     public static int count = 0;
 
-    static {
-        count++;
-    }
-
     {
-        gpa = 0;
+        gpa = 0F;
     }
 
     public Student(Faculty faculty, Degree degree, String firstName, String lastName) {

@@ -7,7 +7,8 @@ import com.mebr0.user.type.Degree;
 import java.util.Calendar;
 
 /**
- * Class that generates ids for Employee and Student classes
+ * Class that generates ids for {@link com.mebr0.user.base.Employee} and {@link com.mebr0.user.entity.Student}
+ * Also increments count of following classes
  *
  * @author A.Yergali
  * @version 1.0
@@ -15,7 +16,7 @@ import java.util.Calendar;
 public abstract class IdGenerator {
 
     private IdGenerator() {
-
+        throw new AssertionError("No " + getClass().getSimpleName() + " instances for you!");
     }
 
     public static String generate(Degree degree) {
@@ -36,7 +37,7 @@ public abstract class IdGenerator {
                 break;
         }
 
-        StringBuilder builder = new StringBuilder(Student.count);
+        StringBuilder builder = new StringBuilder(Student.count++);
 
         while (builder.length() < 6) {
             builder.insert(0, "0");
@@ -46,7 +47,7 @@ public abstract class IdGenerator {
     }
 
     public static String generate() {
-        StringBuilder builder = new StringBuilder(Employee.count);
+        StringBuilder builder = new StringBuilder(Employee.count++);
 
         while (builder.length() < 6) {
             builder.insert(0, "0");

@@ -3,6 +3,7 @@ package com.mebr0.user.base;
 import com.mebr0.user.type.Gender;
 
 import java.sql.Date;
+import java.util.Objects;
 
 public abstract class Person {
 
@@ -12,8 +13,8 @@ public abstract class Person {
     private Gender gender;
 
     public Person(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.firstName = Objects.requireNonNull(firstName, "First name cannot be null");
+        this.lastName = Objects.requireNonNull(lastName, "Last name cannot be null");
     }
 
     public String getFullName() {
@@ -25,7 +26,7 @@ public abstract class Person {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.firstName = Objects.requireNonNull(firstName, "First name cannot be null");
     }
 
     public String getLastName() {
@@ -33,7 +34,7 @@ public abstract class Person {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.lastName = Objects.requireNonNull(lastName, "Last name cannot be null");;
     }
 
     public Date getBirthDate() {
