@@ -1,5 +1,7 @@
 package com.mebr0.user.base;
 
+import com.mebr0.user.util.PasswordEncoder;
+
 public abstract class User extends Person {
 
     private String id;
@@ -13,17 +15,16 @@ public abstract class User extends Person {
     {
         // Todo: login generator
         LOGIN = "";
-        // Todo: hash password
-        password = DEFAULT_PASSWORD;
+        password = PasswordEncoder.encode(DEFAULT_PASSWORD);
     }
 
     public User(String firstName, String lastName) {
         super(firstName, lastName);
     }
 
-    // Todo: compare to hash
     public boolean checkCredentials(String login, String password) {
-        return LOGIN.equalsIgnoreCase(login) && this.password.equals(password);
+        String encodedPassword = PasswordEncoder.encode(password);
+        return LOGIN.equalsIgnoreCase(login) && this.password.equals(encodedPassword);
     }
 
     public String getId() {
@@ -43,7 +44,7 @@ public abstract class User extends Person {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = PasswordEncoder.encode(password);
     }
 
     public String getEmail() {
