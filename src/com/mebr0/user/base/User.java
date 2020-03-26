@@ -2,7 +2,7 @@ package com.mebr0.user.base;
 
 public abstract class User extends Person {
 
-    private final String ID;
+    private String id;
     private final String LOGIN;
     private String password;
     private String email;
@@ -11,8 +11,6 @@ public abstract class User extends Person {
     public static final String DEFAULT_PASSWORD = "Kbtu111";
 
     {
-        // Todo: Id generator
-        ID = "";
         // Todo: login generator
         LOGIN = "";
         // Todo: hash password
@@ -29,7 +27,15 @@ public abstract class User extends Person {
     }
 
     public String getId() {
-        return ID;
+        return id;
+    }
+
+    public void setId(String id) throws IllegalAccessException {
+        if (this.id != null) {
+            throw new IllegalAccessException("Id already initialized");
+        }
+
+        this.id = id;
     }
 
     public String getLogin() {
