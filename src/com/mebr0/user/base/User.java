@@ -1,5 +1,6 @@
 package com.mebr0.user.base;
 
+import com.mebr0.user.util.LoginGenerator;
 import com.mebr0.user.util.PasswordEncoder;
 
 import java.util.Objects;
@@ -15,13 +16,13 @@ public abstract class User extends Person {
     public static final String DEFAULT_PASSWORD = "Kbtu111";
 
     {
-        // Todo: login generator
-        LOGIN = "";
         password = PasswordEncoder.encode(DEFAULT_PASSWORD);
     }
 
     public User(String firstName, String lastName) {
         super(firstName, lastName);
+
+        LOGIN = LoginGenerator.generate(firstName, lastName);
     }
 
     public boolean checkCredentials(String login, String password) {
@@ -35,6 +36,7 @@ public abstract class User extends Person {
         return id;
     }
 
+    // Todo: change exception to custom one
     public void setId(String id) throws IllegalAccessException {
         if (this.id != null) {
             throw new IllegalAccessException("Id already initialized");

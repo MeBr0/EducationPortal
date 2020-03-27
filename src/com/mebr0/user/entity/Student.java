@@ -17,7 +17,7 @@ public class Student extends User {
         gpa = 0F;
     }
 
-    public Student(Faculty faculty, Degree degree, String firstName, String lastName) {
+    Student(String firstName, String lastName, Faculty faculty, Degree degree) {
         super(firstName, lastName);
 
         this.faculty = faculty;
