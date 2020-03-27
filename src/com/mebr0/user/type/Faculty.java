@@ -2,24 +2,30 @@ package com.mebr0.user.type;
 
 public enum Faculty {
 
-    FIT("Faculty of Information Technologies"),
-    FGE("Faculty of General Education"),
-    BS("Business School"),
-    ISE("International School of Economics"),
-    KMA("Kazakhstan Maritime Academy"),
-    FEOGI("Faculty of Energy and Oil & Gas Industry"),
-    SMC("School of Mathematics and Cybernetics"),
-    FGGE("Faculty of Geology and Geological Exploration"),
-    SCE("School of Chemical Engineering"),
-    CAE("Center of Alternative Energy");
+    FIT("FIT", "Faculty of Information Technologies"),
+    FGE("FGE", "Faculty of General Education"),
+    BS("BD", "Business School"),
+    ISE("ISE", "International School of Economics"),
+    KMA("KMA", "Kazakhstan Maritime Academy"),
+    FEOGI("FEOGI", "Faculty of Energy and Oil & Gas Industry"),
+    SMC("SMC", "School of Mathematics and Cybernetics"),
+    FGGE("FGGE", "Faculty of Geology and Geological Exploration"),
+    SCE("SCE", "School of Chemical Engineering"),
+    CAE("CAE", "Center of Alternative Energy");
 
+    private final String NAME;
     private final String TITLE;
 
-    Faculty(String title) {
+    Faculty(String name, String title) {
+        this.NAME = name;
         this.TITLE = title;
     }
 
     public String getTitle() {
         return TITLE;
+    }
+
+    public String getShortName() {
+        return NAME;
     }
 }
