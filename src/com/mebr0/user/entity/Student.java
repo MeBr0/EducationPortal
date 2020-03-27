@@ -11,7 +11,7 @@ public class Student extends User {
     private Faculty faculty;
     private Degree degree;
 
-    public static int count = 0;
+    public static long count = 0;
 
     {
         gpa = 0F;
@@ -56,7 +56,7 @@ public class Student extends User {
 
     @Override
     public String toString() {
-        return "Student [" + super.toString() + ", faculty: " + faculty.getShortName() + ", degree: " +
-                degree.getShortName() + ", gpa: " + gpa + "]";
+        return getClass().getSimpleName() + " [" + super.toString() + ", faculty: " + faculty.getShortName() +
+                ", degree: " + degree.getShortName() + ", gpa: " + gpa + "]";
     }
 }

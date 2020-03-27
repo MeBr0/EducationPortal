@@ -37,7 +37,8 @@ public abstract class IdGenerator {
                 break;
         }
 
-        StringBuilder builder = new StringBuilder(Student.count++);
+        String postfix = String.valueOf(Student.count++);
+        StringBuilder builder = new StringBuilder(postfix);
 
         while (builder.length() < 6) {
             builder.insert(0, "0");
@@ -47,7 +48,8 @@ public abstract class IdGenerator {
     }
 
     public static String generate() {
-        StringBuilder builder = new StringBuilder(Employee.count++);
+        String postfix = String.valueOf(Employee.count++);
+        StringBuilder builder = new StringBuilder(postfix);
 
         while (builder.length() < 6) {
             builder.insert(0, "0");
