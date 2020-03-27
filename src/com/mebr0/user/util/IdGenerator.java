@@ -11,7 +11,7 @@ import java.util.Calendar;
  * Also increments count of following classes
  *
  * @author A.Yergali
- * @version 1.0
+ * @version 1.0.1
  */
 public abstract class IdGenerator {
 

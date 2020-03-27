@@ -5,10 +5,22 @@ import com.mebr0.user.type.Degree;
 import com.mebr0.user.type.Faculty;
 import com.mebr0.user.type.Position;
 
+/**
+ * Entity class for admins
+ * Also factory
+ */
 public class Admin extends Employee {
 
-    public Admin(String name, String lastName) {
+    private Admin(String name, String lastName) {
         super(name, lastName);
+    }
+
+    /**
+     * Must called only once for creating very first admin
+     * @return first instance of admin
+     */
+    public static Admin from(String firstName, String lastName) {
+        return new Admin(firstName, lastName);
     }
 
     public Student student(String firstName, String lastName, Faculty faculty, Degree degree) {
