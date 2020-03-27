@@ -1,5 +1,7 @@
 package com.mebr0.intranet.util;
 
+import com.mebr0.intranet.session.Session;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,7 +15,7 @@ import static com.mebr0.intranet.util.Printer.out;
  * Must be closed in the end of program
  *
  * @author A.Yergali
- * @version 1.0
+ * @version 1.1
  */
 public class Scanner {
 
@@ -30,6 +32,17 @@ public class Scanner {
     public static String ask(String text) {
         out(text + ": ");
         return input();
+    }
+
+    public static int index() {
+        String input = input();
+
+        try {
+            return Integer.parseInt(input);
+        }
+        catch (Exception e) {
+            return Session.ERROR_OPTION;
+        }
     }
 
     public static String input() {

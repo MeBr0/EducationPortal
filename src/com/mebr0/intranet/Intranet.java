@@ -1,9 +1,11 @@
 package com.mebr0.intranet;
 
+import com.mebr0.intranet.database.Database;
+import com.mebr0.intranet.session.AdminSession;
 import com.mebr0.intranet.session.Session;
 import com.mebr0.intranet.util.Scanner;
-
-import java.util.Random;
+import com.mebr0.user.base.User;
+import com.mebr0.user.entity.Admin;
 
 import static com.mebr0.intranet.util.Printer.error;
 import static com.mebr0.intranet.util.Printer.print;
@@ -16,7 +18,7 @@ import static com.mebr0.intranet.util.Scanner.ask;
  * Singleton class
  *
  * @author A.Yergali
- * @version 0.1
+ * @version 0.2
  */
 public class Intranet implements Session {
 
@@ -34,9 +36,16 @@ public class Intranet implements Session {
         return intranet;
     }
 
+    private Database database = Database.getInstance();
+
+    @Override
+    public void greet() {
+        print("Intranet system launched", "Please log into system");
+    }
+
     @Override
     public Status begin() {
-        print("Intranet system launched", "Please log into system");
+        greet();
 
         int i = 0;
 
@@ -44,9 +53,17 @@ public class Intranet implements Session {
             String login = ask("Enter login");
             String password = ask("Enter password");
 
-            if (new Random().nextBoolean()) {
-                print("Logged in with " + login + " " + password);
-                break;
+            User user = database.getUser(login, password);
+
+            if (user != null) {
+
+                Session innerSession = null;
+
+                if (user instanceof Admin) {
+                    innerSession = AdminSession.getSession((Admin) user);
+                }
+
+                return innerSession.begin();
             }
             else {
                 print("Failed to log in");

@@ -23,6 +23,10 @@ public class Admin extends Employee {
         return new Admin(firstName, lastName);
     }
 
+    public Admin admin(String firstName, String lastName) {
+        return new Admin(firstName, lastName);
+    }
+
     public Student student(String firstName, String lastName, Faculty faculty, Degree degree) {
         return new Student(firstName, lastName, faculty, degree);
     }
