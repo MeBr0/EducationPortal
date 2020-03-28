@@ -6,6 +6,7 @@ import com.mebr0.user.entity.Admin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.mebr0.intranet.database.Database.Files.USERS;
 import static com.mebr0.intranet.util.Printer.error;
@@ -58,28 +59,36 @@ public class Database {
         return users;
     }
 
-    public User getUser(String login, String password) {
-        for (User user: users) {
-            if (user.checkCredentials(login, password)) {
-                return user;
-            }
-        }
+    public List<User> getUsers(Class<?> clazz) {
+        return users.stream().
+                filter(user -> user.getClass() == clazz).
+                collect(Collectors.toList());
+    }
 
-        return null;
+    public User getUser(String login, String password) {
+        return users.stream().
+                filter(user -> user.checkCredentials(login, password)).
+                findFirst().
+                orElse(null);
     }
 
     public User getUser(String login) {
-        for (User user: users) {
-            if (user.getLogin().equals(login)) {
-                return user;
-            }
-        }
-
-        return null;
+        return users.stream().
+                filter(user -> user.getLogin().equals(login)).
+                findFirst().
+                orElse(null);
     }
 
     public void createUser(User user) {
         this.users.add(user);
+    }
+
+    public boolean deleteUser(String login) {
+        int initSize = users.size();
+
+        users.removeIf(user -> user.getLogin().equalsIgnoreCase(login));
+
+        return users.size() != initSize;
     }
 
     /* ---------------------------------------------------- Load ---------------------------------------------------- */

@@ -1,7 +1,10 @@
 package com.mebr0.intranet.session;
 
+import com.mebr0.user.base.User;
+
 import static com.mebr0.intranet.util.Printer.error;
 import static com.mebr0.intranet.util.Printer.options;
+import static com.mebr0.intranet.util.Scanner.ask;
 import static com.mebr0.intranet.util.Scanner.index;
 
 /**
@@ -36,6 +39,19 @@ public interface Session {
                 methods[option - 1].run();
             }
         }
+    }
+
+    default boolean changePassword(User user) {
+        String currentPassword = ask("Enter current password");
+        String newPassword = ask("Enter new password");
+        String newPassword2 = ask("Enter new password again");
+
+        if (newPassword.equals(newPassword2) && user.checkCredentials(user.getLogin(), currentPassword)) {
+            user.setPassword(newPassword);
+            return true;
+        }
+
+        return false;
     }
 
     enum Status {

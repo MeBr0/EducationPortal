@@ -6,9 +6,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.EnumSet;
+import java.util.stream.IntStream;
 
-import static com.mebr0.intranet.util.Printer.error;
-import static com.mebr0.intranet.util.Printer.out;
+import static com.mebr0.intranet.util.Printer.*;
 
 /**
  * Class for getting input information from System.in stream
@@ -47,9 +47,7 @@ public class Scanner {
         while (true) {
             EnumSet.allOf(clazz).stream().map(Enum::toString).forEach(Printer::print);
 
-            out("Choose options for " + clazz.getSimpleName() + ": ");
-
-            String option = input();
+            String option = ask("Choose options for " + clazz.getSimpleName() + ": ");
 
             try {
                 return T.valueOf(clazz, option);
@@ -58,6 +56,33 @@ public class Scanner {
                 error("Invalid option");
             }
         }
+    }
+
+    /**
+     *
+     * @param classes
+     * @return
+     */
+    public static Class<?> ask(Class<?>... classes) {
+        int option;
+
+        while (true) {
+            IntStream.range(0, classes.length).
+                    mapToObj(i -> (i + 1) + ". " + classes[i].getSimpleName()).
+                    forEach(Printer::print);
+
+            option = index("Choose role of user: ");
+
+            if (option <= classes.length && option > 0)
+                return classes[option - 1];
+            else
+                error("Invalid option");
+        }
+    }
+
+    public static int index(String text) {
+        out(text + ": ");
+        return index();
     }
 
     public static int index() {

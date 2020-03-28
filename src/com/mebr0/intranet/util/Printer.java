@@ -1,6 +1,7 @@
 package com.mebr0.intranet.util;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.IntStream;
 
 /**
@@ -21,9 +22,15 @@ public class Printer {
     }
 
     public static void options(String... texts) {
-        IntStream.range(0, texts.length)
-                .mapToObj(i -> (i + 1) + ". " + texts[i])
-                .forEach(Printer::print);
+        IntStream.range(0, texts.length).
+                mapToObj(i -> (i + 1) + ". " + texts[i]).
+                forEach(Printer::print);
+    }
+
+    public static void print(List<?> objects) {
+        objects.stream().
+                map(Object::toString).
+                forEach(Printer::print);
     }
 
     public static void print(String text) {
