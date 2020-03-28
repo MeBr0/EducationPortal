@@ -1,6 +1,6 @@
 package com.mebr0.intranet.util;
 
-import com.mebr0.intranet.session.Session;
+import com.mebr0.intranet.session.base.UserSession;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -92,7 +92,7 @@ public class Scanner {
             return Integer.parseInt(input);
         }
         catch (Exception e) {
-            return Session.ERROR_OPTION;
+            return UserSession.ERROR_OPTION;
         }
     }
 

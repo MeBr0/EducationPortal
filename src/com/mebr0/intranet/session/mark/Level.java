@@ -1,4 +1,4 @@
-package com.mebr0.intranet.session;
+package com.mebr0.intranet.session.mark;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

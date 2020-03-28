@@ -2,7 +2,7 @@ package com.mebr0.intranet;
 
 import com.mebr0.intranet.database.Database;
 import com.mebr0.intranet.session.AdminSession;
-import com.mebr0.intranet.session.Session;
+import com.mebr0.intranet.session.base.UserSession;
 import com.mebr0.intranet.util.Scanner;
 import com.mebr0.user.base.User;
 import com.mebr0.user.entity.Admin;
@@ -20,7 +20,7 @@ import static com.mebr0.intranet.util.Scanner.ask;
  * @author A.Yergali
  * @version 0.2
  */
-public class Intranet implements Session {
+public class Intranet implements UserSession {
 
     private static Intranet intranet = null;
 
@@ -36,7 +36,7 @@ public class Intranet implements Session {
         return intranet;
     }
 
-    private Database database = Database.getInstance();
+    private final Database DB = Database.getInstance();
 
     @Override
     public void greet() {
@@ -55,11 +55,11 @@ public class Intranet implements Session {
             String login = ask("Enter login");
             String password = ask("Enter password");
 
-            User user = database.getUser(login, password);
+            User user = DB.getUser(login, password);
 
             if (user != null) {
 
-                Session innerSession = null;
+                UserSession innerSession = null;
 
                 if (user instanceof Admin) {
                     innerSession = AdminSession.getSession((Admin) user);
@@ -76,7 +76,7 @@ public class Intranet implements Session {
         if (i > CONNECTION_LIMIT)
             error("Too many authentication failures");
 
-        if (!database.save())
+        if (!DB.save())
             error("Could not save");
 
         Scanner.close();

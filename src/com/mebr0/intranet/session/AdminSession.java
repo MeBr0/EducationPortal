@@ -1,6 +1,8 @@
 package com.mebr0.intranet.session;
 
 import com.mebr0.intranet.database.Database;
+import com.mebr0.intranet.session.base.UserSession;
+import com.mebr0.intranet.session.mark.Level;
 import com.mebr0.user.base.User;
 import com.mebr0.user.entity.Admin;
 import com.mebr0.user.entity.Student;
@@ -21,7 +23,7 @@ import static com.mebr0.intranet.util.Scanner.ask;
  * @author A.Yergali
  * @version 1.2
  */
-public class AdminSession implements Session {
+public class AdminSession implements UserSession {
 
     private final Admin ADMIN;
 

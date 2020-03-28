@@ -1,17 +1,11 @@
-package com.mebr0.intranet.session;
-
-import com.mebr0.user.base.User;
+package com.mebr0.intranet.session.base;
 
 import static com.mebr0.intranet.util.Printer.error;
 import static com.mebr0.intranet.util.Printer.options;
-import static com.mebr0.intranet.util.Scanner.ask;
 import static com.mebr0.intranet.util.Scanner.index;
 
 /**
  * Interface for session classes as {@link com.mebr0.intranet.Intranet} and others
- *
- * @author A.Yergali
- * @version 1.1
  */
 public interface Session {
 
@@ -22,6 +16,12 @@ public interface Session {
     void greet();
     Status begin();
 
+    /**
+     * Main method in subclasses for splitting options to {@link Runnable} type methods
+     *
+     * @param options to print
+     * @param methods to execute
+     */
     default void split(String[] options, Runnable[] methods) {
         int option;
 
@@ -39,19 +39,6 @@ public interface Session {
                 methods[option - 1].run();
             }
         }
-    }
-
-    default boolean changePassword(User user) {
-        String currentPassword = ask("Enter current password");
-        String newPassword = ask("Enter new password");
-        String newPassword2 = ask("Enter new password again");
-
-        if (newPassword.equals(newPassword2) && user.checkCredentials(user.getLogin(), currentPassword)) {
-            user.setPassword(newPassword);
-            return true;
-        }
-
-        return false;
     }
 
     enum Status {
