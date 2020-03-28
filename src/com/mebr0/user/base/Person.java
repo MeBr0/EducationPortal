@@ -2,10 +2,11 @@ package com.mebr0.user.base;
 
 import com.mebr0.user.type.Gender;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
-public abstract class Person {
+public abstract class Person implements Serializable {
 
     private String firstName;
     private String lastName;
@@ -51,5 +52,10 @@ public abstract class Person {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    @Override
+    public String toString() {
+        return "name: " + firstName + ", lastName: " + lastName;
     }
 }

@@ -5,19 +5,21 @@ import com.mebr0.user.type.Degree;
 import com.mebr0.user.type.Faculty;
 import com.mebr0.user.util.IdGenerator;
 
-public class Student extends User {
+import java.io.Serializable;
+
+public class Student extends User implements Serializable {
 
     private float gpa;
     private Faculty faculty;
     private Degree degree;
 
-    public static int count = 0;
+    public static long count = 0;
 
     {
         gpa = 0F;
     }
 
-    public Student(Faculty faculty, Degree degree, String firstName, String lastName) {
+    Student(String firstName, String lastName, Faculty faculty, Degree degree) {
         super(firstName, lastName);
 
         this.faculty = faculty;
@@ -52,5 +54,11 @@ public class Student extends User {
 
     public void setDegree(Degree degree) {
         this.degree = degree;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " [" + super.toString() + ", faculty: " + faculty.getShortName() +
+                ", degree: " + degree.getShortName() + ", gpa: " + gpa + "]";
     }
 }

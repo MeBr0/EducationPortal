@@ -1,13 +1,15 @@
 package com.mebr0.user.type;
 
-public enum Gender {
+public enum Position {
 
-    MALE("Male"),
-    FEMALE("Female");
+    TUTOR("Tutor"),
+    LECTURER("Lecturer"),
+    SENIOR_LECTURER("Senior lecturer"),
+    PROFESSOR("Professor");
 
     private final String TITLE;
 
-    Gender(String title) {
+    Position(String title) {
         this.TITLE = title;
     }
 
