@@ -78,6 +78,10 @@ public class Database {
         return null;
     }
 
+    public void createUser(User user) {
+        this.users.add(user);
+    }
+
     /* ---------------------------------------------------- Load ---------------------------------------------------- */
     private boolean loadUsers() {
         List<User> users = Serializer.deserializeList(USERS.title, User.class);
@@ -89,6 +93,8 @@ public class Database {
 
     /* ---------------------------------------------------- Save ---------------------------------------------------- */
     private boolean saveUsers() {
+        this.users.forEach(System.out::println);
+
         return Serializer.serialize(USERS.title, this.users);
     }
 

@@ -21,4 +21,9 @@ public enum Degree {
     public String getShortName() {
         return NAME;
     }
+
+    @Override
+    public String toString() {
+        return NAME + " (" + TITLE + ")";
+    }
 }

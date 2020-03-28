@@ -73,7 +73,7 @@ public class Intranet implements Session {
             }
         }
 
-        if (i >= CONNECTION_LIMIT)
+        if (i > CONNECTION_LIMIT)
             error("Too many authentication failures");
 
         if (!database.save())

@@ -4,8 +4,8 @@ public enum Position {
 
     TUTOR("Tutor"),
     LECTURER("Lecturer"),
-    S_LECTURER("SENIOR_LECTURER"),
-    PROFESSOR("PROFESSOR");
+    SENIOR_LECTURER("Senior lecturer"),
+    PROFESSOR("Professor");
 
     private final String TITLE;
 
@@ -14,6 +14,11 @@ public enum Position {
     }
 
     public String getTitle() {
+        return TITLE;
+    }
+
+    @Override
+    public String toString() {
         return TITLE;
     }
 }

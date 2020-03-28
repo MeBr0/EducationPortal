@@ -5,7 +5,9 @@ import com.mebr0.intranet.session.Session;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.EnumSet;
 
+import static com.mebr0.intranet.util.Printer.error;
 import static com.mebr0.intranet.util.Printer.out;
 
 /**
@@ -32,6 +34,30 @@ public class Scanner {
     public static String ask(String text) {
         out(text + ": ");
         return input();
+    }
+
+    /**
+     * Ask for one valid option of enum
+     *
+     * @param clazz - enum class
+     * @param <T> - type of enum
+     * @return chosen enum value
+     */
+    public static <T extends Enum<T>> T ask(Class<T> clazz) {
+        while (true) {
+            EnumSet.allOf(clazz).stream().map(Enum::toString).forEach(Printer::print);
+
+            out("Choose options for " + clazz.getSimpleName() + ": ");
+
+            String option = input();
+
+            try {
+                return T.valueOf(clazz, option);
+            }
+            catch (IllegalArgumentException e) {
+                error("Invalid option");
+            }
+        }
     }
 
     public static int index() {

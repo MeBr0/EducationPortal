@@ -1,5 +1,7 @@
 package com.mebr0.user.type;
 
+import com.mebr0.user.entity.Teacher;
+
 public enum Faculty {
 
     FIT("FIT", "Faculty of Information Technologies"),
@@ -27,5 +29,10 @@ public enum Faculty {
 
     public String getShortName() {
         return NAME;
+    }
+
+    @Override
+    public String toString() {
+        return NAME + " (" + TITLE + ")";
     }
 }
