@@ -10,6 +10,12 @@ import com.mebr0.user.type.Position;
 import static com.mebr0.intranet.util.Printer.print;
 import static com.mebr0.intranet.util.Scanner.ask;
 
+/**
+ * Session class for {@link Admin} within {@link com.mebr0.intranet.Intranet} session
+ *
+ * @author A.Yergali
+ * @version 1.1
+ */
 public class AdminSession implements Session {
 
     private Admin admin;
@@ -38,6 +44,7 @@ public class AdminSession implements Session {
         return Status.OK;
     }
 
+    @Level(1)
     private void root() {
         String[] options = { "Add user" };
         Runnable[] methods = { this::addUser };
@@ -45,6 +52,7 @@ public class AdminSession implements Session {
         split(options, methods);
     }
 
+    @Level(2)
     private void addUser() {
         String[] options = { "Add admin", "Add student", "Add teacher" };
         Runnable[] methods = { this::addAdmin, this::addStudent, this::addTeacher };
@@ -52,6 +60,7 @@ public class AdminSession implements Session {
         split(options, methods);
     }
 
+    @Level(3)
     private void addAdmin() {
         String name = ask("Enter name");
         String lastName = ask("Enter last name");
@@ -61,6 +70,7 @@ public class AdminSession implements Session {
         print("Created " + user);
     }
 
+    @Level(3)
     private void addStudent() {
         String name = ask("Enter name");
         String lastName = ask("Enter last name");
@@ -72,6 +82,7 @@ public class AdminSession implements Session {
         print("Created " + user);
     }
 
+    @Level(3)
     private void addTeacher() {
         String name = ask("Enter name");
         String lastName = ask("Enter last name");

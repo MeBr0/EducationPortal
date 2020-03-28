@@ -4,6 +4,12 @@ import static com.mebr0.intranet.util.Printer.error;
 import static com.mebr0.intranet.util.Printer.options;
 import static com.mebr0.intranet.util.Scanner.index;
 
+/**
+ * Interface for session classes as {@link com.mebr0.intranet.Intranet} and others
+ *
+ * @author A.Yergali
+ * @version 1.1
+ */
 public interface Session {
 
     int CONNECTION_LIMIT = 3;
@@ -20,15 +26,14 @@ public interface Session {
             options(options);
             option = index();
 
-            switch (option) {
-                case BACK_OPTION:
-                    return;
-                case ERROR_OPTION:
-                    error("Invalid option");
-                    break;
-                default:
-                    methods[option - 1].run();
-                    break;
+            if (option == BACK_OPTION) {
+                return;
+            }
+            else if (option == ERROR_OPTION || option > options.length) {
+                error("Invalid option");
+            }
+            else {
+                methods[option - 1].run();
             }
         }
     }
