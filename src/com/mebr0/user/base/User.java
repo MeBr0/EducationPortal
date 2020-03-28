@@ -3,9 +3,10 @@ package com.mebr0.user.base;
 import com.mebr0.user.util.LoginGenerator;
 import com.mebr0.user.util.PasswordEncoder;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class User extends Person {
+public abstract class User extends Person implements Serializable {
 
     private String id;
     private final String LOGIN;

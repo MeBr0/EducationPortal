@@ -5,7 +5,9 @@ import com.mebr0.user.type.Degree;
 import com.mebr0.user.type.Faculty;
 import com.mebr0.user.util.IdGenerator;
 
-public class Student extends User {
+import java.io.Serializable;
+
+public class Student extends User implements Serializable {
 
     private float gpa;
     private Faculty faculty;

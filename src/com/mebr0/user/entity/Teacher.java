@@ -4,7 +4,9 @@ import com.mebr0.user.base.Employee;
 import com.mebr0.user.type.Faculty;
 import com.mebr0.user.type.Position;
 
-public class Teacher extends Employee {
+import java.io.Serializable;
+
+public class Teacher extends Employee implements Serializable {
 
     private Faculty faculty;
     private Position position;

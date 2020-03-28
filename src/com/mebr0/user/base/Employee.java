@@ -2,7 +2,9 @@ package com.mebr0.user.base;
 
 import com.mebr0.user.util.IdGenerator;
 
-public abstract class Employee extends User {
+import java.io.Serializable;
+
+public abstract class Employee extends User implements Serializable {
 
     public static long count = 0;
 

@@ -2,8 +2,8 @@ package com.mebr0.intranet.session;
 
 import com.mebr0.user.entity.Admin;
 
-import static com.mebr0.intranet.util.Printer.*;
-import static com.mebr0.intranet.util.Scanner.*;
+import static com.mebr0.intranet.util.Printer.print;
+import static com.mebr0.intranet.util.Scanner.ask;
 
 public class AdminSession implements Session {
 
@@ -19,7 +19,7 @@ public class AdminSession implements Session {
 
     @Override
     public void greet() {
-        print("Logged in as " + user.getFullName() + "(" + user.getClass().getSimpleName() + ")");
+        print("Logged in as " + user.getFullName() + " (" + user.getClass().getSimpleName() + ")");
     }
 
     @Override

@@ -5,11 +5,13 @@ import com.mebr0.user.type.Degree;
 import com.mebr0.user.type.Faculty;
 import com.mebr0.user.type.Position;
 
+import java.io.Serializable;
+
 /**
  * Entity class for admins
  * Also factory
  */
-public class Admin extends Employee {
+public class Admin extends Employee implements Serializable {
 
     private Admin(String name, String lastName) {
         super(name, lastName);

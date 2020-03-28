@@ -45,6 +45,8 @@ public class Intranet implements Session {
 
     @Override
     public Status begin() {
+        Status result = Status.ERROR;
+
         greet();
 
         int i = 0;
@@ -63,19 +65,22 @@ public class Intranet implements Session {
                     innerSession = AdminSession.getSession((Admin) user);
                 }
 
-                return innerSession.begin();
+                result = innerSession.begin();
+                break;
             }
             else {
                 print("Failed to log in");
             }
         }
 
-        if (i >= CONNECTION_LIMIT) {
+        if (i >= CONNECTION_LIMIT)
             error("Too many authentication failures");
-        }
+
+        if (!database.save())
+            error("Could not save");
 
         Scanner.close();
 
-        return Status.OK;
+        return result;
     }
 }
