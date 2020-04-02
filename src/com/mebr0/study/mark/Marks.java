@@ -1,6 +1,15 @@
 package com.mebr0.study.mark;
 
-public class Marks {
+import java.io.Serializable;
+
+/**
+ * Class for marking {@link com.mebr0.user.entity.Student} within {@link com.mebr0.study.Course}
+ * Contains three parts: two attestations and final
+ *
+ * @author A.Yergali
+ * @version 1.0
+ */
+public class Marks implements Serializable {
 
     private float attestation1;
     private float attestation2;
@@ -10,6 +19,7 @@ public class Marks {
     private static final byte FINAL_LIMIT = 40;
 
     public boolean updateMark(float value, Mode mode) {
+
         switch (mode) {
             case ATT1:
                 return addAttestation1(value);

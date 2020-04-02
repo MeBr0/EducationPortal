@@ -1,6 +1,8 @@
 package com.mebr0.intranet.database;
 
 import com.mebr0.intranet.util.Serializer;
+import com.mebr0.study.Course;
+import com.mebr0.study.Subject;
 import com.mebr0.user.base.User;
 import com.mebr0.user.entity.Admin;
 
@@ -8,8 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.mebr0.intranet.database.Database.Files.USERS;
-import static com.mebr0.intranet.util.Printer.error;
+import static com.mebr0.intranet.database.Database.Files.*;
 
 /**
  * Class for storing and manipulating data
@@ -37,21 +38,26 @@ public class Database {
     }
 
     private List<User> users;
+    private List<Subject> subjects;
+    private List<Course> courses;
 
     {
-        if (!load())
-            error("Could not load");
+        load();
 
         if (getUser("q_q") == null)
             this.users.add(Admin.from("Q", "Q"));
     }
 
-    public boolean load() {
-        return loadUsers();
+    private void load() {
+        this.users = load(USERS, User.class);
+        this.subjects = load(SUBJECTS, Subject.class);
+        this.courses = load(COURSES, Course.class);
     }
 
     public boolean save() {
-        return saveUsers();
+        return save(USERS, this.users) &&
+                save(SUBJECTS, this.subjects) &&
+                save(COURSES, this.courses);
     }
 
     /* --------------------------------------------------- Users ---------------------------------------------------- */
@@ -79,8 +85,23 @@ public class Database {
                 orElse(null);
     }
 
-    public void createUser(User user) {
-        this.users.add(user);
+    public <T extends User> T getUser(String fullNameOrLogin, Class<T> clazz) {
+         User teacher = users.stream().
+                 filter(user -> user.getLogin().equalsIgnoreCase(fullNameOrLogin) ||
+                         user.getFullName().equals(fullNameOrLogin)).
+                 findFirst().
+                 orElse(null);
+
+         if (teacher == null) {
+             return null;
+         }
+
+        //noinspection unchecked
+        return teacher.getClass() == clazz ? (T) teacher : null;
+    }
+
+    public void create(User user) {
+        users.add(user);
     }
 
     public boolean deleteUser(String login) {
@@ -91,30 +112,53 @@ public class Database {
         return users.size() != initSize;
     }
 
+    /* -------------------------------------------------- Subjects -------------------------------------------------- */
+    public List<Subject> getSubjects() {
+        return subjects;
+    }
+
+    public Subject getSubject(String title) {
+        return subjects.stream().
+                filter(subject -> subject.getTitle().equalsIgnoreCase(title)).
+                findFirst().
+                orElse(null);
+    }
+
+    public void create(Subject subject) {
+        subjects.add(subject);
+    }
+
+    /* --------------------------------------------------- Courses -------------------------------------------------- */
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void create(Course course) {
+        courses.add(course);
+    }
+
     /* ---------------------------------------------------- Load ---------------------------------------------------- */
-    private boolean loadUsers() {
-        List<User> users = Serializer.deserializeList(USERS.title, User.class);
+    private <T> List<T> load(Files file, Class<T> clazz) {
+        List<T> list = Serializer.deserializeList(file.TITLE, clazz);
 
-        this.users = users != null ? users : new ArrayList<>();
-
-        return users != null;
+        return list != null ? list : new ArrayList<>();
     }
 
     /* ---------------------------------------------------- Save ---------------------------------------------------- */
-    private boolean saveUsers() {
-        this.users.forEach(System.out::println);
-
-        return Serializer.serialize(USERS.title, this.users);
+    private boolean save(Files file, Object object) {
+        return Serializer.serialize(file.TITLE, object);
     }
 
     /* ---------------------------------------------------- Files --------------------------------------------------- */
     enum Files {
-        USERS("users.out");
+        USERS("users.out"),
+        SUBJECTS("subjects.out"),
+        COURSES("courses.out");
 
-        private final String title;
+        private final String TITLE;
 
         Files(String title) {
-            this.title = title;
+            TITLE = title;
         }
     }
 }

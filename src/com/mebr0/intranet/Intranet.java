@@ -2,10 +2,12 @@ package com.mebr0.intranet;
 
 import com.mebr0.intranet.database.Database;
 import com.mebr0.intranet.session.AdminSession;
+import com.mebr0.intranet.session.ManagerSession;
 import com.mebr0.intranet.session.base.UserSession;
 import com.mebr0.intranet.util.Scanner;
 import com.mebr0.user.base.User;
 import com.mebr0.user.entity.Admin;
+import com.mebr0.user.entity.Manager;
 
 import static com.mebr0.intranet.util.Printer.error;
 import static com.mebr0.intranet.util.Printer.print;
@@ -63,6 +65,9 @@ public class Intranet implements UserSession {
 
                 if (user instanceof Admin) {
                     innerSession = AdminSession.getSession((Admin) user);
+                }
+                else if (user instanceof Manager) {
+                    innerSession = ManagerSession.getSession((Manager) user);
                 }
 
                 result = innerSession.begin();

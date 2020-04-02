@@ -61,8 +61,8 @@ public class AdminSession implements UserSession {
 
     @Level(2)
     private void addUser() {
-        String[] options = { "Add admin", "Add student", "Add teacher" };
-        Runnable[] methods = { this::addAdmin, this::addStudent, this::addTeacher };
+        String[] options = { "Add admin", "Add student", "Add teacher", "Add manager" };
+        Runnable[] methods = { this::addAdmin, this::addStudent, this::addTeacher, this::addManager };
 
         split(options, methods);
     }
@@ -73,7 +73,7 @@ public class AdminSession implements UserSession {
         String lastName = ask("Enter last name");
 
         User user = ADMIN.admin(name, lastName);
-        DB.createUser(user);
+        DB.create(user);
         print("Created " + user);
     }
 
@@ -85,7 +85,7 @@ public class AdminSession implements UserSession {
         Degree degree = ask(Degree.class);
 
         User user = ADMIN.student(name, lastName, faculty, degree);
-        DB.createUser(user);
+        DB.create(user);
         print("Created " + user);
     }
 
@@ -97,7 +97,18 @@ public class AdminSession implements UserSession {
         Position position = ask(Position.class);
 
         User user = ADMIN.teacher(name, lastName, faculty, position);
-        DB.createUser(user);
+        DB.create(user);
+        print("Created " + user);
+    }
+
+    @Level(3)
+    private void addManager() {
+        String name = ask("Enter name");
+        String lastName = ask("Enter last name");
+        Faculty faculty = ask(Faculty.class);
+
+        User user = ADMIN.manager(name, lastName, faculty);
+        DB.create(user);
         print("Created " + user);
     }
 

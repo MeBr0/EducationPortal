@@ -7,9 +7,16 @@ import com.mebr0.study.time.Semester;
 import com.mebr0.user.entity.Student;
 import com.mebr0.user.entity.Teacher;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Course {
+/**
+ * Course class
+ *
+ * @author A.Yergali
+ * @version 1.1
+ */
+public class Course implements Serializable {
 
     // Todo: add schedule
     private final String ID;
@@ -121,5 +128,11 @@ public class Course {
 
     public boolean removeFile(String name) {
         return FileManager.removeFile(ID, name);
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " [subject: " + subject.getTitle() + ", teacher: " +
+                teacher.getFullName() + ", credits: " + creditsNumber + "]";
     }
 }

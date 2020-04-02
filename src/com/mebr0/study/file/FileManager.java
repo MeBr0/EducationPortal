@@ -4,9 +4,16 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Manager class for creating, editing and removing files
+ * Used by {@link com.mebr0.study.Course}
+ *
+ * @author A.Yergali
+ * @version 1.0
+ */
 public class FileManager {
 
-    private static final String PREFIX = "files\\";
+    private static final String PREFIX = "files/";
 
     public static boolean createDirectory(String name) {
         File file = new File(PREFIX + name);
@@ -15,7 +22,7 @@ public class FileManager {
     }
 
     public static boolean createFileAndWrite(String directory, String name, String... content) {
-        File file = new File(PREFIX + directory + "\\" + name);
+        File file = new File(PREFIX + directory + "/" + name);
 
         try {
             return file.createNewFile() && writeToFile(file, content);

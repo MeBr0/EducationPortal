@@ -1,5 +1,6 @@
 package com.mebr0.study.time;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -9,7 +10,7 @@ import java.util.Objects;
  * @author A.Yergali
  * @version 1.0
  */
-public final class Semester {
+public final class Semester implements Serializable {
 
     private final int YEAR;
     private final Type TYPE;
@@ -45,7 +46,7 @@ public final class Semester {
     /**
      * Types of semesters with date bounds for each
      */
-    enum Type {
+    public enum Type {
 
         FALL("Fall", 8, 31, 12, 31),
         WINTER("Winter", 1, 1, 1, 20),

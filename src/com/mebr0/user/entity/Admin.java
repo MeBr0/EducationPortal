@@ -37,6 +37,10 @@ public class Admin extends Employee implements Serializable {
         return new Teacher(firstName, lastName, faculty, position);
     }
 
+    public Manager manager(String firstName, String lastName, Faculty faculty) {
+        return new Manager(firstName, lastName, faculty);
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + " [" + super.toString() + "]";

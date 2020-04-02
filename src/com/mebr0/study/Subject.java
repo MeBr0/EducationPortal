@@ -6,6 +6,12 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Subject class contains general information
+ *
+ * @author A.Yergali
+ * @version 1.0
+ */
 public class Subject implements Serializable {
 
     private final String ID;
