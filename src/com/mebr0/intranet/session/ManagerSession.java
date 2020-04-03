@@ -53,13 +53,21 @@ public class ManagerSession implements UserSession {
 
     @Level(1)
     private void root() {
-        String[] options = { "Create subject", "Show subjects", "Create course", "Show courses" };
-        Runnable[] methods = { this::createSubject, this::showSubjects, this::createCourse, this::showCourses };
+        String[] options = { "Subjects", "Courses" };
+        Runnable[] methods = { this::subjects, this::courses };
 
         split(options, methods);
     }
 
     @Level(2)
+    private void subjects() {
+        String[] options = { "Create subject", "Show subjects" };
+        Runnable[] methods = { this::createSubject, this::showSubjects };
+
+        split(options, methods);
+    }
+
+    @Level(3)
     private void createSubject() {
         String title = ask("Enter title");
         String description = ask("Enter description");
@@ -70,17 +78,22 @@ public class ManagerSession implements UserSession {
         print("Created " + subject);
     }
 
-    @Level(2)
+    @Level(3)
     private void showSubjects() {
         List<Subject> subjects = DB.getSubjects();
 
-        if (subjects.isEmpty())
-            print("Empty");
-        else
-            print(subjects);
+        print(subjects);
     }
 
     @Level(2)
+    private void courses() {
+        String[] options = { "Create course", "Show courses" };
+        Runnable[] methods = { this::createCourse, this::showCourses };
+
+        split(options, methods);
+    }
+
+    @Level(3)
     private void createCourse() {
         String title = ask("Enter title of subject");
         Subject subject = DB.getSubject(title);
@@ -99,13 +112,10 @@ public class ManagerSession implements UserSession {
         print("Created " + course);
     }
 
-    @Level(2)
+    @Level(3)
     private void showCourses() {
         List<Course> courses = DB.getCourses();
 
-        if (courses.isEmpty())
-            print("Empty");
-        else
-            print(courses);
+        print(courses);
     }
 }

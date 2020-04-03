@@ -27,8 +27,13 @@ public class Printer {
                 forEach(Printer::print);
     }
 
-    public static void print(List<?> objects) {
-        objects.stream().
+    public static void print(List<?> list) {
+        if (list.isEmpty()) {
+            print("Empty");
+            return;
+        }
+
+        list.stream().
                 map(Object::toString).
                 forEach(Printer::print);
     }

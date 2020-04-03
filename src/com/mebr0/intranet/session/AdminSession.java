@@ -53,13 +53,21 @@ public class AdminSession implements UserSession {
 
     @Level(1)
     private void root() {
-        String[] options = { "Add user", "Remove user", "Show users", "Change password" };
-        Runnable[] methods = { this::addUser, this::removeUser, this::showUsers, this::changePassword };
+        String[] options = { "Users", "Profile" };
+        Runnable[] methods = { this::users, this::profile };
 
         split(options, methods);
     }
 
     @Level(2)
+    private void users() {
+        String[] options = { "Add user", "Remove user", "Show users" };
+        Runnable[] methods = { this::addUser, this::removeUser, this::showUsers };
+
+        split(options, methods);
+    }
+
+    @Level(3)
     private void addUser() {
         String[] options = { "Add admin", "Add student", "Add teacher", "Add manager" };
         Runnable[] methods = { this::addAdmin, this::addStudent, this::addTeacher, this::addManager };
@@ -67,7 +75,7 @@ public class AdminSession implements UserSession {
         split(options, methods);
     }
 
-    @Level(3)
+    @Level(4)
     private void addAdmin() {
         String name = ask("Enter name");
         String lastName = ask("Enter last name");
@@ -77,7 +85,7 @@ public class AdminSession implements UserSession {
         print("Created " + user);
     }
 
-    @Level(3)
+    @Level(4)
     private void addStudent() {
         String name = ask("Enter name");
         String lastName = ask("Enter last name");
@@ -89,7 +97,7 @@ public class AdminSession implements UserSession {
         print("Created " + user);
     }
 
-    @Level(3)
+    @Level(4)
     private void addTeacher() {
         String name = ask("Enter name");
         String lastName = ask("Enter last name");
@@ -101,7 +109,7 @@ public class AdminSession implements UserSession {
         print("Created " + user);
     }
 
-    @Level(3)
+    @Level(4)
     private void addManager() {
         String name = ask("Enter name");
         String lastName = ask("Enter last name");
@@ -112,7 +120,7 @@ public class AdminSession implements UserSession {
         print("Created " + user);
     }
 
-    @Level(2)
+    @Level(3)
     private void removeUser() {
         String login = ask("Enter login of user to remove");
 
@@ -124,19 +132,24 @@ public class AdminSession implements UserSession {
             error("Could not find user with login " + login);
     }
 
-    @Level(2)
+    @Level(3)
     private void showUsers() {
         Class<?> clazz = ask(Admin.class, Student.class, Teacher.class);
 
         List<User> users = DB.getUsers(clazz);
 
-        if (users.isEmpty())
-            print("Empty");
-        else
-            print(users);
+        print(users);
     }
 
     @Level(2)
+    private void profile() {
+        String[] options = { "Change password" };
+        Runnable[] methods = { this::changePassword };
+
+        split(options, methods);
+    }
+
+    @Level(3)
     private void changePassword() {
         if (changePassword(ADMIN))
             print("Password changed");
