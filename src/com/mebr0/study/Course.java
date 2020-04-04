@@ -19,28 +19,28 @@ import java.util.*;
 public class Course implements Serializable {
 
     // Todo: add schedule
-    private final String ID;
+    private final String id;
     private Subject subject;
     private byte creditsNumber;
     private Teacher teacher;
-    private final List<Student> STUDENTS;
-    private final Semester SEMESTER;
-    private final Map<String, Marks> MARKS;
+    private final List<Student> students;
+    private final Semester semester;
+    private final Map<String, Marks> marks;
 
     {
-        ID = UUID.randomUUID().toString();
-        STUDENTS = new ArrayList<>();
-        MARKS = new HashMap<>();
+        id = UUID.randomUUID().toString();
+        students = new ArrayList<>();
+        marks = new HashMap<>();
 
         // Todo: log it
-        FileManager.createDirectory(ID);
+        FileManager.createDirectory(id);
     }
 
     private Course(Subject subject, byte number, Teacher teacher, Semester semester) {
         this.subject = Objects.requireNonNull(subject, "Subject cannot be null");
         this.creditsNumber = number;
         this.teacher = Objects.requireNonNull(teacher, "Teacher cannot be null");
-        this.SEMESTER = Objects.requireNonNull(semester, "Semester cannot be null");
+        this.semester = Objects.requireNonNull(semester, "Semester cannot be null");
     }
 
     public static Course from(Subject subject, byte number, Teacher teacher) {
@@ -52,7 +52,7 @@ public class Course implements Serializable {
     }
 
     public String getId() {
-        return ID;
+        return id;
     }
 
     public Subject getSubject() {
@@ -80,16 +80,16 @@ public class Course implements Serializable {
     }
 
     public List<Student> getStudents() {
-        return STUDENTS;
+        return students;
     }
 
     // Todo: not gonna work because not overridden equals(Object o)
     public boolean addStudent(Student student) {
-        boolean alreadyExistsCheck = STUDENTS.contains(student);
+        boolean alreadyExistsCheck = students.contains(student);
 
         if (!alreadyExistsCheck) {
-            STUDENTS.add(student);
-            MARKS.put(student.getLogin(), new Marks());
+            students.add(student);
+            marks.put(student.getLogin(), new Marks());
         }
 
         return !alreadyExistsCheck;
@@ -97,20 +97,20 @@ public class Course implements Serializable {
 
     // Todo: not gonna work because not overridden equals(Object o)
     public void removeStudent(Student student) {
-        STUDENTS.remove(student);
-        MARKS.remove(student.getLogin());
+        students.remove(student);
+        marks.remove(student.getLogin());
     }
 
     public Semester getSemester() {
-        return SEMESTER;
+        return semester;
     }
 
     public Marks getMarks(Student student) {
-        return MARKS.get(student.getLogin());
+        return marks.get(student.getLogin());
     }
 
     public boolean addMark(Student student, float value, Mode mode) {
-        Marks marks = MARKS.get(student.getLogin());
+        Marks marks = this.marks.get(student.getLogin());
 
         if (marks == null)
             return false;
@@ -119,15 +119,15 @@ public class Course implements Serializable {
     }
 
     public boolean createFile(String name, String... content) {
-        return FileManager.createFileAndWrite(ID, name, content);
+        return FileManager.createFileAndWrite(id, name, content);
     }
 
     public boolean writeToFile(String name, String... content) {
-        return FileManager.writeToFile(ID, name, content);
+        return FileManager.writeToFile(id, name, content);
     }
 
     public boolean removeFile(String name) {
-        return FileManager.removeFile(ID, name);
+        return FileManager.removeFile(id, name);
     }
 
     @Override

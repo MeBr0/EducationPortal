@@ -21,10 +21,10 @@ import static com.mebr0.intranet.util.Printer.*;
  */
 public class Scanner {
 
-    private static final BufferedReader INPUT;
+    private static final BufferedReader input;
 
     static {
-        INPUT = new BufferedReader(new InputStreamReader(System.in));
+        input = new BufferedReader(new InputStreamReader(System.in));
     }
 
     private Scanner() {
@@ -100,7 +100,7 @@ public class Scanner {
         String result = "";
 
         try {
-            while ((result = INPUT.readLine()) != null) {
+            while ((result = input.readLine()) != null) {
                 break;
             }
         }
@@ -113,8 +113,8 @@ public class Scanner {
 
     public static void close() {
         try {
-            if (INPUT != null) {
-                INPUT.close();
+            if (input != null) {
+                input.close();
             }
         }
         catch (IOException e) {

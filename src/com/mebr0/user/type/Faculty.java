@@ -1,7 +1,5 @@
 package com.mebr0.user.type;
 
-import com.mebr0.user.entity.Teacher;
-
 public enum Faculty {
 
     FIT("FIT", "Faculty of Information Technologies"),
@@ -15,24 +13,24 @@ public enum Faculty {
     SCE("SCE", "School of Chemical Engineering"),
     CAE("CAE", "Center of Alternative Energy");
 
-    private final String NAME;
-    private final String TITLE;
+    private final String name;
+    private final String title;
 
     Faculty(String name, String title) {
-        this.NAME = name;
-        this.TITLE = title;
+        this.name = name;
+        this.title = title;
     }
 
     public String getTitle() {
-        return TITLE;
+        return title;
     }
 
     public String getShortName() {
-        return NAME;
+        return name;
     }
 
     @Override
     public String toString() {
-        return NAME + " (" + TITLE + ")";
+        return name + " (" + title + ")";
     }
 }

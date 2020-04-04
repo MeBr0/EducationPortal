@@ -14,13 +14,13 @@ import java.util.UUID;
  */
 public class Subject implements Serializable {
 
-    private final String ID;
+    private final String id;
     private String title;
     private String description;
     private Faculty faculty;
 
     {
-        ID = UUID.randomUUID().toString();
+        id = UUID.randomUUID().toString();
     }
 
     public Subject(String title, String description, Faculty faculty) {
@@ -30,7 +30,7 @@ public class Subject implements Serializable {
     }
 
     public String getId() {
-        return ID;
+        return id;
     }
 
     public String getTitle() {

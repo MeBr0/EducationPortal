@@ -3,8 +3,10 @@ package com.mebr0.intranet.database;
 import com.mebr0.intranet.util.Serializer;
 import com.mebr0.study.Course;
 import com.mebr0.study.Subject;
+import com.mebr0.study.time.Semester;
 import com.mebr0.user.base.User;
 import com.mebr0.user.entity.Admin;
+import com.mebr0.user.entity.Teacher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,32 +135,44 @@ public class Database {
         return courses;
     }
 
+    public Course getCourse(Subject subject, int creditNumber, Teacher teacher, Semester semester) {
+        return courses.stream().
+                filter(course -> course.getSubject() == subject &&
+                        course.getCreditsNumber() == creditNumber &&
+                        course.getTeacher() == teacher &&
+                        course.getSemester().equals(semester)).
+                findFirst().
+                orElse(null);
+
+    }
+
     public void create(Course course) {
         courses.add(course);
     }
 
     /* ---------------------------------------------------- Load ---------------------------------------------------- */
     private <T> List<T> load(Files file, Class<T> clazz) {
-        List<T> list = Serializer.deserializeList(file.TITLE, clazz);
+        List<T> list = Serializer.deserializeList(file.title, clazz);
 
         return list != null ? list : new ArrayList<>();
     }
 
     /* ---------------------------------------------------- Save ---------------------------------------------------- */
     private boolean save(Files file, Object object) {
-        return Serializer.serialize(file.TITLE, object);
+        return Serializer.serialize(file.title, object);
     }
 
     /* ---------------------------------------------------- Files --------------------------------------------------- */
     enum Files {
+
         USERS("users.out"),
         SUBJECTS("subjects.out"),
         COURSES("courses.out");
 
-        private final String TITLE;
+        private final String title;
 
         Files(String title) {
-            TITLE = title;
+            this.title = title;
         }
     }
 }

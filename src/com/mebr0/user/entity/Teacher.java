@@ -2,7 +2,6 @@ package com.mebr0.user.entity;
 
 import com.mebr0.user.base.Employee;
 import com.mebr0.user.type.Faculty;
-import com.mebr0.user.type.Position;
 
 import java.io.Serializable;
 
@@ -38,5 +37,28 @@ public class Teacher extends Employee implements Serializable {
     public String toString() {
         return getClass().getSimpleName() + " [" + super.toString() + ", faculty: " + faculty.getShortName() +
                 ", position: " + position.getTitle() + "]";
+    }
+
+    public enum Position {
+
+        TUTOR("Tutor"),
+        LECTURER("Lecturer"),
+        SENIOR_LECTURER("Senior lecturer"),
+        PROFESSOR("Professor");
+
+        private final String title;
+
+        Position(String title) {
+            this.title = title;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        @Override
+        public String toString() {
+            return title;
+        }
     }
 }

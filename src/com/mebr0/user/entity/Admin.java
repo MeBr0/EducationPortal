@@ -1,9 +1,9 @@
 package com.mebr0.user.entity;
 
 import com.mebr0.user.base.Employee;
-import com.mebr0.user.type.Degree;
+import com.mebr0.user.entity.Student.Degree;
+import com.mebr0.user.entity.Teacher.Position;
 import com.mebr0.user.type.Faculty;
-import com.mebr0.user.type.Position;
 
 import java.io.Serializable;
 

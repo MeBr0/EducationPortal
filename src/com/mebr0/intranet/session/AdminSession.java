@@ -6,10 +6,10 @@ import com.mebr0.intranet.session.mark.Level;
 import com.mebr0.user.base.User;
 import com.mebr0.user.entity.Admin;
 import com.mebr0.user.entity.Student;
+import com.mebr0.user.entity.Student.Degree;
 import com.mebr0.user.entity.Teacher;
-import com.mebr0.user.type.Degree;
+import com.mebr0.user.entity.Teacher.Position;
 import com.mebr0.user.type.Faculty;
-import com.mebr0.user.type.Position;
 
 import java.util.List;
 
@@ -25,12 +25,12 @@ import static com.mebr0.intranet.util.Scanner.ask;
  */
 public class AdminSession implements UserSession {
 
-    private final Admin ADMIN;
+    private final Admin admin;
 
     private final Database DB = Database.getInstance();
 
     private AdminSession(Admin admin) {
-        this.ADMIN = admin;
+        this.admin = admin;
     }
 
     public static AdminSession getSession(Admin admin) {
@@ -39,7 +39,7 @@ public class AdminSession implements UserSession {
 
     @Override
     public void greet() {
-        print("Logged in as " + ADMIN.getFullName() + " (" + ADMIN.getClass().getSimpleName() + ")");
+        print("Logged in as " + admin.getFullName() + " (" + admin.getClass().getSimpleName() + ")");
     }
 
     @Override
@@ -80,7 +80,7 @@ public class AdminSession implements UserSession {
         String name = ask("Enter name");
         String lastName = ask("Enter last name");
 
-        User user = ADMIN.admin(name, lastName);
+        User user = admin.admin(name, lastName);
         DB.create(user);
         print("Created " + user);
     }
@@ -92,7 +92,7 @@ public class AdminSession implements UserSession {
         Faculty faculty = ask(Faculty.class);
         Degree degree = ask(Degree.class);
 
-        User user = ADMIN.student(name, lastName, faculty, degree);
+        User user = admin.student(name, lastName, faculty, degree);
         DB.create(user);
         print("Created " + user);
     }
@@ -104,7 +104,7 @@ public class AdminSession implements UserSession {
         Faculty faculty = ask(Faculty.class);
         Position position = ask(Position.class);
 
-        User user = ADMIN.teacher(name, lastName, faculty, position);
+        User user = admin.teacher(name, lastName, faculty, position);
         DB.create(user);
         print("Created " + user);
     }
@@ -115,7 +115,7 @@ public class AdminSession implements UserSession {
         String lastName = ask("Enter last name");
         Faculty faculty = ask(Faculty.class);
 
-        User user = ADMIN.manager(name, lastName, faculty);
+        User user = admin.manager(name, lastName, faculty);
         DB.create(user);
         print("Created " + user);
     }
@@ -151,7 +151,7 @@ public class AdminSession implements UserSession {
 
     @Level(3)
     private void changePassword() {
-        if (changePassword(ADMIN))
+        if (changePassword(admin))
             print("Password changed");
         else
             error("Could not change password");

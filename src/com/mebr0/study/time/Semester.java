@@ -12,12 +12,12 @@ import java.util.Objects;
  */
 public final class Semester implements Serializable {
 
-    private final int YEAR;
-    private final Type TYPE;
+    private final int year;
+    private final Type type;
 
     private Semester(int year, Type type) {
-        this.YEAR = year;
-        this.TYPE = Objects.requireNonNull(type, "Type cannot be null");
+        this.year = year;
+        this.type = Objects.requireNonNull(type, "Type cannot be null");
     }
 
     public static Semester from(int year, Type type) {
@@ -31,16 +31,31 @@ public final class Semester implements Serializable {
     }
 
     public int getYear() {
-        return YEAR;
+        return year;
     }
 
     public Type getType() {
-        return TYPE;
+        return type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Semester)) return false;
+
+        Semester semester = (Semester) o;
+
+        return year == semester.year && type == semester.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(year, type);
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [" + YEAR + " " + TYPE.getTitle() + "]";
+        return getClass().getSimpleName() + " [" + year + " " + type.getTitle() + "]";
     }
 
     /**
@@ -53,34 +68,34 @@ public final class Semester implements Serializable {
         SPRING("Spring", 1, 21, 5, 20),
         SUMMER("Summer", 5, 21, 8, 30);
 
-        private final String TITLE;
-        private final int START_MONTH;
-        private final int START_DAY;
-        private final int END_MONTH;
-        private final int END_DAY;
+        private final String title;
+        private final int startMonth;
+        private final int startDay;
+        private final int endMonth;
+        private final int endDay;
 
         Type(String title, int startMonth, int startDay, int endMonth, int endDay) {
-            this.TITLE = title;
-            this.START_MONTH = startMonth;
-            this.START_DAY = startDay;
-            this.END_MONTH = endMonth;
-            this.END_DAY = endDay;
+            this.title = title;
+            this.startMonth = startMonth;
+            this.startDay = startDay;
+            this.endMonth = endMonth;
+            this.endDay = endDay;
         }
 
         public String getTitle() {
-            return TITLE;
+            return title;
         }
 
         private LocalDate start() {
             int year = LocalDate.now().getYear();
 
-            return LocalDate.of(year, START_MONTH, START_DAY);
+            return LocalDate.of(year, startMonth, startDay);
         }
 
         public LocalDate end() {
             int year = LocalDate.now().getYear();
 
-            return LocalDate.of(year, END_MONTH, END_DAY);
+            return LocalDate.of(year, endMonth, endDay);
         }
 
         public static Type getCurrent() {
@@ -97,7 +112,7 @@ public final class Semester implements Serializable {
 
         @Override
         public String toString() {
-            return TITLE;
+            return title;
         }
     }
 }

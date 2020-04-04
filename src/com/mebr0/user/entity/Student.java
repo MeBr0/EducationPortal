@@ -1,7 +1,6 @@
 package com.mebr0.user.entity;
 
 import com.mebr0.user.base.User;
-import com.mebr0.user.type.Degree;
 import com.mebr0.user.type.Faculty;
 import com.mebr0.user.util.IdGenerator;
 
@@ -60,5 +59,33 @@ public class Student extends User implements Serializable {
     public String toString() {
         return getClass().getSimpleName() + " [" + super.toString() + ", faculty: " + faculty.getShortName() +
                 ", degree: " + degree.getShortName() + ", gpa: " + gpa + "]";
+    }
+
+    public enum Degree {
+
+        BD("BD", "Bachelor Degree"),
+        MD("MD", "Master Degree"),
+        PHD("PHD", "Philosophy Doctor Degree");
+
+        private final String name;
+        private final String title;
+
+        Degree(String name, String title) {
+            this.name = name;
+            this.title = title;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getShortName() {
+            return name;
+        }
+
+        @Override
+        public String toString() {
+            return name + " (" + title + ")";
+        }
     }
 }
