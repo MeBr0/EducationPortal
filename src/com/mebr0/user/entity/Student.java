@@ -1,21 +1,27 @@
 package com.mebr0.user.entity;
 
+import com.mebr0.study.Course;
+import com.mebr0.study.ManagingCourses;
 import com.mebr0.user.base.User;
 import com.mebr0.user.type.Faculty;
 import com.mebr0.user.util.IdGenerator;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Student extends User implements Serializable {
+public class Student extends User implements Serializable, ManagingCourses {
 
     private float gpa;
     private Faculty faculty;
     private Degree degree;
+    private List<Course> courses;
 
     public static long count = 0;
 
     {
         gpa = 0F;
+        courses = new ArrayList<>();
     }
 
     Student(String firstName, String lastName, Faculty faculty, Degree degree) {
@@ -53,6 +59,21 @@ public class Student extends User implements Serializable {
 
     public void setDegree(Degree degree) {
         this.degree = degree;
+    }
+
+    @Override
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    @Override
+    public boolean addCourse(Course course) {
+        return courses.add(course);
+    }
+
+    @Override
+    public boolean removeCourse(Course course) {
+        return courses.remove(course);
     }
 
     @Override

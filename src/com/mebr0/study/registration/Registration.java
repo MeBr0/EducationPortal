@@ -7,13 +7,8 @@ import com.mebr0.user.entity.Student.Degree;
 import com.mebr0.user.type.Faculty;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
-
-import static com.mebr0.intranet.util.Printer.print;
 
 public class Registration {
 
@@ -54,11 +49,10 @@ public class Registration {
     public List<Course> get(byte yearOfStudy, Degree degree, Faculty faculty) {
         String key = key(yearOfStudy, degree);
 
-        print(key);
-
         List<Course> courses = this.courses.get(key);
 
-        print(courses);
+        if (courses == null)
+            return Collections.emptyList();
 
         return courses.stream().
                 filter(course -> course.getSubject().getFaculty() == faculty).
@@ -83,8 +77,17 @@ public class Registration {
 
     // Todo: handle errors
     @SuppressWarnings("unchecked")
-    public void load() {
-        courses = Serializer.deserialize(file, Map.class);
+    public boolean load() {
+        Map<String, List<Course>> courses = Serializer.deserialize(file, Map.class);
+
+        if (courses != null) {
+            this.courses = courses;
+            return true;
+        }
+        else {
+            this.courses = new HashMap<>();
+            return false;
+        }
     }
 
     private boolean save() {

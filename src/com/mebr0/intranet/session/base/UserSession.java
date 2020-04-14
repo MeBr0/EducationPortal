@@ -1,7 +1,10 @@
 package com.mebr0.intranet.session.base;
 
+import com.mebr0.intranet.session.mark.Level;
 import com.mebr0.user.base.User;
 
+import static com.mebr0.intranet.util.Printer.error;
+import static com.mebr0.intranet.util.Printer.print;
 import static com.mebr0.intranet.util.Scanner.ask;
 
 /**

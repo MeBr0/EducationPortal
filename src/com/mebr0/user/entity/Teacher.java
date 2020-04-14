@@ -1,14 +1,23 @@
 package com.mebr0.user.entity;
 
+import com.mebr0.study.Course;
+import com.mebr0.study.ManagingCourses;
 import com.mebr0.user.base.Employee;
 import com.mebr0.user.type.Faculty;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Teacher extends Employee implements Serializable {
+public class Teacher extends Employee implements ManagingCourses, Serializable {
 
     private Faculty faculty;
     private Position position;
+    private List<Course> courses;
+
+    {
+        courses = new ArrayList<>();
+    }
 
     Teacher(String firstName, String lastName, Faculty faculty, Position position) {
         super(firstName, lastName);
@@ -31,6 +40,21 @@ public class Teacher extends Employee implements Serializable {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    @Override
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    @Override
+    public boolean addCourse(Course course) {
+        return courses.add(course);
+    }
+
+    @Override
+    public boolean removeCourse(Course course) {
+        return courses.remove(course);
     }
 
     @Override

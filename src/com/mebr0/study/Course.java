@@ -41,6 +41,8 @@ public class Course implements Serializable {
         this.creditsNumber = number;
         this.teacher = Objects.requireNonNull(teacher, "Teacher cannot be null");
         this.semester = Objects.requireNonNull(semester, "Semester cannot be null");
+
+        teacher.addCourse(this);
     }
 
     public static Course from(Subject subject, byte number, Teacher teacher) {
@@ -49,6 +51,10 @@ public class Course implements Serializable {
 
     public static Course from(Subject subject, byte number, Teacher teacher, Semester semester) {
         return new Course(subject, number, teacher, semester);
+    }
+
+    public boolean isActive() {
+        return getSemester().equals(Semester.getCurrent());
     }
 
     public String getId() {
@@ -90,6 +96,8 @@ public class Course implements Serializable {
         if (!alreadyExistsCheck) {
             students.add(student);
             marks.put(student.getLogin(), new Marks());
+
+            student.addCourse(this);
         }
 
         return !alreadyExistsCheck;
@@ -116,6 +124,14 @@ public class Course implements Serializable {
             return false;
 
         return marks.updateMark(value, mode);
+    }
+
+    public List<String> getFiles() {
+        return FileManager.getFiles(id);
+    }
+
+    public String readFile(String file) {
+        return FileManager.readFromFile(id, file);
     }
 
     public boolean createFile(String name, String... content) {

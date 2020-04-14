@@ -24,7 +24,7 @@ import static com.mebr0.intranet.util.Scanner.index;
  * Session class for {@link Manager} within {@link com.mebr0.intranet.Intranet} session
  *
  * @author A.Yergali
- * @version 1.0
+ * @version 2.0
  */
 public class ManagerSession implements UserSession {
 
@@ -57,8 +57,8 @@ public class ManagerSession implements UserSession {
 
     @Level(1)
     private void root() {
-        String[] options = { "Subjects", "Courses" };
-        Runnable[] methods = { this::subjects, this::courses };
+        String[] options = { "Subjects", "Courses", "Profile" };
+        Runnable[] methods = { this::subjects, this::courses, this::profile };
 
         split(options, methods);
     }
@@ -170,5 +170,21 @@ public class ManagerSession implements UserSession {
 
         REG.register(course, (byte) yearOfStudy, degree);
         print("Registered " + course);
+    }
+
+    @Level(2)
+    private void profile() {
+        String[] options = { "Change password" };
+        Runnable[] methods = { this::changePassword };
+
+        split(options, methods);
+    }
+
+    @Level(3)
+    private void changePassword() {
+        if (changePassword(manager))
+            print("Password changed");
+        else
+            error("Could not change password");
     }
 }
