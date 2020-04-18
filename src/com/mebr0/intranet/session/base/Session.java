@@ -1,7 +1,12 @@
 package com.mebr0.intranet.session.base;
 
-import static com.mebr0.intranet.util.Printer.error;
-import static com.mebr0.intranet.util.Printer.options;
+import com.mebr0.study.Course;
+
+import java.util.List;
+import java.util.function.Consumer;
+
+import static com.mebr0.intranet.util.Printer.*;
+import static com.mebr0.intranet.util.Printer.print;
 import static com.mebr0.intranet.util.Scanner.index;
 
 /**
@@ -37,6 +42,33 @@ public interface Session {
             }
             else {
                 methods[option - 1].run();
+            }
+        }
+    }
+
+    /**
+     * Main method in subclasses for listing objects in list and accepting action by {@link Consumer}
+     *
+     * @param list of objects
+     * @param consumer action with chosen object
+     * @param <T> type of objects in list
+     */
+    default <T> void split(List<T> list, Consumer<Integer> consumer) {
+        int option;
+
+        while (true) {
+            list(list);
+            option = index();
+
+            if (option == BACK_OPTION) {
+                return;
+            }
+            else if (option == ERROR_OPTION || option > list.size()) {
+                error("Invalid option");
+            }
+            else {
+                consumer.accept(option);
+//                return;
             }
         }
     }

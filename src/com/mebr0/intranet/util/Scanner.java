@@ -5,7 +5,10 @@ import com.mebr0.intranet.session.base.UserSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.stream.IntStream;
 
 import static com.mebr0.intranet.util.Printer.*;
@@ -21,14 +24,32 @@ import static com.mebr0.intranet.util.Printer.*;
  */
 public class Scanner {
 
-    private static final BufferedReader INPUT;
+    private static final BufferedReader input;
 
     static {
-        INPUT = new BufferedReader(new InputStreamReader(System.in));
+        input = new BufferedReader(new InputStreamReader(System.in));
     }
 
     private Scanner() {
         throw new AssertionError("No " + getClass().getSimpleName() + " instances for you!");
+    }
+
+    public static String[] text(String text) {
+        print(text);
+
+        List<String> strings = new ArrayList<>();
+
+        String line = input();
+
+        while (!line.equals(":q")) {
+            strings.add(line);
+
+            line = input();
+        }
+
+        String[] texts = new String[strings.size()];
+        strings.toArray(texts);
+        return texts;
     }
 
     public static String ask(String text) {
@@ -96,11 +117,27 @@ public class Scanner {
         }
     }
 
+    public static float number(String text) {
+        out(text + ": ");
+        return number();
+    }
+
+    public static float number() {
+        String input = input();
+
+        try {
+            return Float.parseFloat(input);
+        }
+        catch (Exception e) {
+            return UserSession.ERROR_OPTION;
+        }
+    }
+
     public static String input() {
         String result = "";
 
         try {
-            while ((result = INPUT.readLine()) != null) {
+            while ((result = input.readLine()) != null) {
                 break;
             }
         }
@@ -113,8 +150,8 @@ public class Scanner {
 
     public static void close() {
         try {
-            if (INPUT != null) {
-                INPUT.close();
+            if (input != null) {
+                input.close();
             }
         }
         catch (IOException e) {

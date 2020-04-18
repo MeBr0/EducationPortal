@@ -9,7 +9,7 @@ import java.util.Objects;
 public abstract class User extends Person implements Serializable {
 
     private String id;
-    private final String LOGIN;
+    private final String login;
     private String password;
     private String email;
     private String phoneNumber;
@@ -23,14 +23,14 @@ public abstract class User extends Person implements Serializable {
     public User(String firstName, String lastName) {
         super(firstName, lastName);
 
-        LOGIN = LoginGenerator.generate(firstName, lastName);
+        login = LoginGenerator.generate(firstName, lastName);
     }
 
     public boolean checkCredentials(String login, String password) {
         password = Objects.requireNonNull(password, "Password cannot be null");
         String encodedPassword = PasswordEncoder.encode(password);
 
-        return LOGIN.equalsIgnoreCase(login) && this.password.equals(encodedPassword);
+        return this.login.equalsIgnoreCase(login) && this.password.equals(encodedPassword);
     }
 
     public String getId() {
@@ -47,7 +47,7 @@ public abstract class User extends Person implements Serializable {
     }
 
     public String getLogin() {
-        return LOGIN;
+        return login;
     }
 
     public void setPassword(String password) {
@@ -72,7 +72,29 @@ public abstract class User extends Person implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+
+        if (!(o instanceof User))
+            return false;
+
+        if (!super.equals(o))
+            return false;
+
+        User user = (User) o;
+        return id.equals(user.id) &&
+                login.equals(user.login) &&
+                password.equals(user.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), id, login, password);
+    }
+
+    @Override
     public String toString() {
-        return "id: " + id + ", login: " + LOGIN + ", " + super.toString();
+        return "id: " + id + ", login: " + login + ", " + super.toString();
     }
 }

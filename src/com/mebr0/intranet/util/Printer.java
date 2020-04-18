@@ -21,14 +21,25 @@ public class Printer {
         Arrays.stream(texts).forEach(Printer::print);
     }
 
+    public static <T> void list(List<T> objects) {
+        IntStream.range(0, objects.size()).
+                mapToObj(i -> (i + 1) + ". " + objects.get(i).toString()).
+                forEach(Printer::print);
+    }
+
     public static void options(String... texts) {
         IntStream.range(0, texts.length).
                 mapToObj(i -> (i + 1) + ". " + texts[i]).
                 forEach(Printer::print);
     }
 
-    public static void print(List<?> objects) {
-        objects.stream().
+    public static void print(List<?> list) {
+        if (list == null || list.isEmpty()) {
+            print("Empty");
+            return;
+        }
+
+        list.stream().
                 map(Object::toString).
                 forEach(Printer::print);
     }
