@@ -1,6 +1,7 @@
 package com.mebr0.study.mark;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Class for marking {@link com.mebr0.user.entity.Student} within {@link com.mebr0.study.Course}
@@ -66,6 +67,25 @@ public class Marks implements Serializable {
 
     public float getFinal() {
         return finale;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+
+        if (!(o instanceof Marks))
+            return false;
+
+        Marks marks = (Marks) o;
+        return Float.compare(marks.attestation1, attestation1) == 0 &&
+                Float.compare(marks.attestation2, attestation2) == 0 &&
+                Float.compare(marks.finale, finale) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(attestation1, attestation2, finale);
     }
 
     @Override

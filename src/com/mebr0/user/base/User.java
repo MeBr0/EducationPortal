@@ -72,6 +72,28 @@ public abstract class User extends Person implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+
+        if (!(o instanceof User))
+            return false;
+
+        if (!super.equals(o))
+            return false;
+
+        User user = (User) o;
+        return id.equals(user.id) &&
+                login.equals(user.login) &&
+                password.equals(user.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), id, login, password);
+    }
+
+    @Override
     public String toString() {
         return "id: " + id + ", login: " + login + ", " + super.toString();
     }

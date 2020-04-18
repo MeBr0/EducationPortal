@@ -9,13 +9,14 @@ import com.mebr0.user.util.IdGenerator;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Student extends User implements Serializable, ManagingCourses {
 
     private float gpa;
     private Faculty faculty;
     private Degree degree;
-    private List<Course> courses;
+    private List<String> courses;
 
     public static long count = 0;
 
@@ -62,18 +63,40 @@ public class Student extends User implements Serializable, ManagingCourses {
     }
 
     @Override
-    public List<Course> getCourses() {
+    public List<String> getCourseIds() {
         return courses;
     }
 
     @Override
     public boolean addCourse(Course course) {
-        return courses.add(course);
+        return courses.add(course.getId());
     }
 
     @Override
     public boolean removeCourse(Course course) {
-        return courses.remove(course);
+        return courses.remove(course.getId());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+
+        if (!(o instanceof Student))
+            return false;
+
+        if (!super.equals(o))
+            return false;
+
+        Student student = (Student) o;
+        return Float.compare(student.gpa, gpa) == 0 &&
+                faculty == student.faculty &&
+                degree == student.degree;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), gpa, faculty, degree);
     }
 
     @Override

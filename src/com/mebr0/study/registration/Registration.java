@@ -8,7 +8,8 @@ import com.mebr0.user.type.Faculty;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
+
+import static com.mebr0.intranet.util.Printer.print;
 
 public class Registration {
 
@@ -26,7 +27,7 @@ public class Registration {
         return registration;
     }
 
-    private Map<String, List<Course>> courses;
+    private Map<String, List<String>> courses;
     private static final String file = "registration.out";
 
     {
@@ -34,7 +35,7 @@ public class Registration {
         load();
     }
 
-    public List<Course> get(Student student) {
+    public List<String> get(Student student) {
         String studentYear = student.getId().substring(0, 2);
         LocalDate today = LocalDate.now();
 
@@ -46,31 +47,29 @@ public class Registration {
         return get(yearOfStudy, student.getDegree(), student.getFaculty());
     }
 
-    public List<Course> get(byte yearOfStudy, Degree degree, Faculty faculty) {
-        String key = key(yearOfStudy, degree);
+    public List<String> get(byte yearOfStudy, Degree degree, Faculty faculty) {
+        String key = key(yearOfStudy, faculty, degree);
 
-        List<Course> courses = this.courses.get(key);
+        List<String> courses = this.courses.get(key);
 
         if (courses == null)
             return Collections.emptyList();
 
-        return courses.stream().
-                filter(course -> course.getSubject().getFaculty() == faculty).
-                collect(Collectors.toList());
+        return courses;
     }
 
     public void register(Course course, byte yearOfStudy, Degree degree) {
-        String key = key(yearOfStudy, degree);
+        String key = key(yearOfStudy, course.getSubject().getFaculty(), degree);
 
         courses.putIfAbsent(key, new ArrayList<>());
 
-        courses.get(key).add(course);
+        courses.get(key).add(course.getId());
 
         save();
     }
 
     public void unregister(Course course) {
-        courses.values().forEach(courses -> courses.removeIf(c -> c == course));
+        courses.values().forEach(courses -> courses.removeIf(c -> c.equals(course.getId())));
 
         save();
     }
@@ -78,10 +77,14 @@ public class Registration {
     // Todo: handle errors
     @SuppressWarnings("unchecked")
     public boolean load() {
-        Map<String, List<Course>> courses = Serializer.deserialize(file, Map.class);
+        Map<String, List<String>> courses = Serializer.deserialize(file, Map.class);
 
         if (courses != null) {
             this.courses = courses;
+            this.courses.forEach((key, list) -> {
+                print(key);
+                print(list);
+            });
             return true;
         }
         else {
@@ -91,10 +94,14 @@ public class Registration {
     }
 
     private boolean save() {
+        this.courses.forEach((key, list) -> {
+            print(key);
+            print(list);
+        });
         return Serializer.serialize(file, courses);
     }
 
-    private String key(byte yearOfStudy, Degree degree) {
-        return yearOfStudy + "_" + degree.getShortName();
+    private String key(byte yearOfStudy, Faculty faculty, Degree degree) {
+        return yearOfStudy + "_" + faculty.getShortName() + "_" + degree.getShortName();
     }
 }

@@ -6,6 +6,7 @@ import com.mebr0.study.Subject;
 import com.mebr0.study.time.Semester;
 import com.mebr0.user.base.User;
 import com.mebr0.user.entity.Admin;
+import com.mebr0.user.entity.Student;
 import com.mebr0.user.entity.Teacher;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.mebr0.intranet.database.Database.Files.*;
+import static com.mebr0.intranet.util.Printer.print;
 
 /**
  * Class for storing and manipulating data
@@ -88,18 +90,18 @@ public class Database {
     }
 
     public <T extends User> T getUser(String fullNameOrLogin, Class<T> clazz) {
-         User teacher = users.stream().
+         User suspectedUser = users.stream().
                  filter(user -> user.getLogin().equalsIgnoreCase(fullNameOrLogin) ||
                          user.getFullName().equals(fullNameOrLogin)).
                  findFirst().
                  orElse(null);
 
-         if (teacher == null) {
+         if (suspectedUser == null) {
              return null;
          }
 
         //noinspection unchecked
-        return teacher.getClass() == clazz ? (T) teacher : null;
+        return suspectedUser.getClass() == clazz ? (T) suspectedUser : null;
     }
 
     public void create(User user) {
@@ -144,6 +146,31 @@ public class Database {
                 findFirst().
                 orElse(null);
 
+    }
+
+    public List<Course> getActiveStudentCourses(Student student) {
+        return courses.stream().
+                filter(course -> student.getCourseIds().contains(course.getId()) && course.isActive()).
+                collect(Collectors.toList());
+    }
+
+    public List<Course> getActiveTeacherCourses(Teacher teacher) {
+        return courses.stream().
+                filter(course -> teacher.getCourseIds().contains(course.getId()) && course.isActive()).
+                collect(Collectors.toList());
+    }
+
+    public List<Course> getCourseById(List<String> ids) {
+        return this.courses.stream().
+                filter(course -> ids.contains(course.getId())).
+                collect(Collectors.toList());
+    }
+
+    public Course getCourseById(String id) {
+        return courses.stream().
+                filter(course -> course.getId().equals(id)).
+                findFirst().
+                orElse(null);
     }
 
     public void create(Course course) {

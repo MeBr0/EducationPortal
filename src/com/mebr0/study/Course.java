@@ -10,6 +10,8 @@ import com.mebr0.user.entity.Teacher;
 import java.io.Serializable;
 import java.util.*;
 
+import static com.mebr0.intranet.util.Printer.print;
+
 /**
  * Course class
  *
@@ -41,16 +43,22 @@ public class Course implements Serializable {
         this.creditsNumber = number;
         this.teacher = Objects.requireNonNull(teacher, "Teacher cannot be null");
         this.semester = Objects.requireNonNull(semester, "Semester cannot be null");
-
-        teacher.addCourse(this);
     }
 
     public static Course from(Subject subject, byte number, Teacher teacher) {
-        return new Course(subject, number, teacher, Semester.getCurrent());
+        Course course = new Course(subject, number, teacher, Semester.getCurrent());
+
+        teacher.addCourse(course);
+
+        return course;
     }
 
     public static Course from(Subject subject, byte number, Teacher teacher, Semester semester) {
-        return new Course(subject, number, teacher, semester);
+        Course course = new Course(subject, number, teacher, semester);
+
+        teacher.addCourse(course);
+
+        return course;
     }
 
     public boolean isActive() {
@@ -93,12 +101,10 @@ public class Course implements Serializable {
     public boolean addStudent(Student student) {
         boolean alreadyExistsCheck = students.contains(student);
 
-        if (!alreadyExistsCheck) {
-            students.add(student);
-            marks.put(student.getLogin(), new Marks());
+        students.add(student);
+        marks.put(student.getLogin(), new Marks());
 
-            student.addCourse(this);
-        }
+        student.addCourse(this);
 
         return !alreadyExistsCheck;
     }
@@ -107,14 +113,15 @@ public class Course implements Serializable {
     public void removeStudent(Student student) {
         students.remove(student);
         marks.remove(student.getLogin());
+        student.removeCourse(this);
     }
 
     public Semester getSemester() {
         return semester;
     }
 
-    public Marks getMarks(Student student) {
-        return marks.get(student.getLogin());
+    public Marks getMarks(String student) {
+        return marks.get(student);
     }
 
     public boolean addMark(Student student, float value, Mode mode) {
@@ -147,8 +154,31 @@ public class Course implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+
+        if (!(o instanceof Course))
+            return false;
+
+        Course course = (Course) o;
+        return creditsNumber == course.creditsNumber &&
+                id.equals(course.id) &&
+                subject.equals(course.subject) &&
+                teacher.equals(course.teacher) &&
+                students.equals(course.students) &&
+                semester.equals(course.semester) &&
+                marks.equals(course.marks);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, subject, creditsNumber, teacher, students, semester, marks);
+    }
+
+    @Override
     public String toString() {
         return getClass().getSimpleName() + " [subject: " + subject.getTitle() + ", teacher: " +
-                teacher.getFullName() + ", credits: " + creditsNumber + "]";
+                teacher.getFullName() + ", credits: " + creditsNumber + ", students: " + students + "]";
     }
 }

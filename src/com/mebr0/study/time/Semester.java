@@ -40,12 +40,16 @@ public final class Semester implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Semester)) return false;
+        if (this == o)
+            return true;
+
+        if (!(o instanceof Semester))
+            return false;
 
         Semester semester = (Semester) o;
 
-        return year == semester.year && type == semester.type;
+        return year == semester.year &&
+                type == semester.type;
     }
 
     @Override
@@ -55,7 +59,7 @@ public final class Semester implements Serializable {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [" + year + " " + type.getTitle() + "]";
+        return "[" + year + " " + type.getTitle() + "]";
     }
 
     /**

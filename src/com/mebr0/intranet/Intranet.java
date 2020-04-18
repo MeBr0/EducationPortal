@@ -4,12 +4,14 @@ import com.mebr0.intranet.database.Database;
 import com.mebr0.intranet.session.AdminSession;
 import com.mebr0.intranet.session.ManagerSession;
 import com.mebr0.intranet.session.StudentSession;
+import com.mebr0.intranet.session.TeacherSession;
 import com.mebr0.intranet.session.base.UserSession;
 import com.mebr0.intranet.util.Scanner;
 import com.mebr0.user.base.User;
 import com.mebr0.user.entity.Admin;
 import com.mebr0.user.entity.Manager;
 import com.mebr0.user.entity.Student;
+import com.mebr0.user.entity.Teacher;
 
 import static com.mebr0.intranet.util.Printer.error;
 import static com.mebr0.intranet.util.Printer.print;
@@ -73,6 +75,9 @@ public class Intranet implements UserSession {
                 }
                 else if (user instanceof Student) {
                     innerSession = StudentSession.getSession((Student) user);
+                }
+                else if (user instanceof Teacher) {
+                    innerSession = TeacherSession.getSession((Teacher) user);
                 }
 
                 result = innerSession.begin();

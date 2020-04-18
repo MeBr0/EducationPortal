@@ -68,6 +68,7 @@ public interface Session {
             }
             else {
                 consumer.accept(option);
+//                return;
             }
         }
     }

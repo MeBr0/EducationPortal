@@ -50,7 +50,7 @@ public class FileManager {
         try (FileWriter writer = new FileWriter(file)) {
 
             for (String text: content) {
-                writer.write(text);
+                writer.write(text + '\n');
             }
         }
         catch (IOException e) {

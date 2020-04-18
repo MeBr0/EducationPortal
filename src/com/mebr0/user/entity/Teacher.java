@@ -8,12 +8,13 @@ import com.mebr0.user.type.Faculty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Teacher extends Employee implements ManagingCourses, Serializable {
 
     private Faculty faculty;
     private Position position;
-    private List<Course> courses;
+    private List<String> courses;
 
     {
         courses = new ArrayList<>();
@@ -43,18 +44,39 @@ public class Teacher extends Employee implements ManagingCourses, Serializable {
     }
 
     @Override
-    public List<Course> getCourses() {
+    public List<String> getCourseIds() {
         return courses;
     }
 
     @Override
     public boolean addCourse(Course course) {
-        return courses.add(course);
+        return courses.add(course.getId());
     }
 
     @Override
     public boolean removeCourse(Course course) {
-        return courses.remove(course);
+        return courses.remove(course.getId());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+
+        if (!(o instanceof Teacher))
+            return false;
+
+        if (!super.equals(o))
+            return false;
+
+        Teacher teacher = (Teacher) o;
+        return faculty == teacher.faculty &&
+                position == teacher.position;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), faculty, position);
     }
 
     @Override

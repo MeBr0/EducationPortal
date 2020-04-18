@@ -9,6 +9,7 @@ import com.mebr0.study.registration.Registration;
 import com.mebr0.study.time.Semester;
 import com.mebr0.study.time.Semester.Type;
 import com.mebr0.user.entity.Manager;
+import com.mebr0.user.entity.Student;
 import com.mebr0.user.entity.Student.Degree;
 import com.mebr0.user.entity.Teacher;
 import com.mebr0.user.type.Faculty;

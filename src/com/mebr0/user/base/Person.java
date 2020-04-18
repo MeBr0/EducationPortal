@@ -53,6 +53,24 @@ public abstract class Person implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+
+        if (!(o instanceof Person))
+            return false;
+
+        Person person = (Person) o;
+        return firstName.equals(person.firstName) &&
+                lastName.equals(person.lastName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName);
+    }
+
+    @Override
     public String toString() {
         return "name: " + firstName + ", lastName: " + lastName;
     }
